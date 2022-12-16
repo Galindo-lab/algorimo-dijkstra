@@ -4,12 +4,11 @@ import networkx as nx
 
 from prettytable import PrettyTable
 
-
-
-
-
 def show_graph_with_labels(adjacency_matrix, mylabels):
-    # matriz de adyasencias
+    """
+    imprime el valor de la matriz y muestra una representacion 
+    mediante networkx
+    """
     p = PrettyTable()
     for row in adjacency_matrix:
         p.add_row(row)
@@ -50,7 +49,9 @@ def unique_items(elements: list) -> list:
 
 
 def square_matrix(g: list) -> bool:
-    """Valida si una matriz es cuadrada"""
+    """
+    Valida si una matriz es cuadrada
+    """
     return len(g) == len(g[0])
 
 
@@ -58,7 +59,9 @@ def square_matrix(g: list) -> bool:
 
 
 def zero_matrix(width: int, height: int) -> list:
-    """Crea una matriz de ceros"""
+    """
+    Crea una matriz de ceros
+    """
     mtx = []
     for i in range(width):
         aux = [0] * height
@@ -70,13 +73,10 @@ def zero_matrix(width: int, height: int) -> list:
 
 
 class Graph():
-    """Esta clase representa un grafo mediante una matriz de 
-    adyacensias"""
-
-
-
-
-    
+    """
+    Esta clase representa un grafo mediante una matriz de 
+    adyacensias
+    """
 
     def __init__(self, labels: list):
         self.labels = unique_items(labels)
@@ -85,14 +85,25 @@ class Graph():
 
         
     def get_node_position(self, node_name: str) -> int:
-        """Obtiene el indice numerico del nodo"""
+        """
+        Obtiene el indice numerico del nodo o su fila y columna
+        en la matriz de adyacencias
 
+        @param node_name nombre del nodo
+        @return indice del nodo
+        """
         return self.labels.index(node_name)
 
 
-
-    def get_weight(self, origin_node: str, destination_node: str):
-
+    def get_weight(self, origin_node: str, destination_node: str) -> float:
+        """
+        Obtener el peso entre dos nodos, el valor de origen y 
+        de destino ya que los grafos no son dirigidos
+        
+        @param origin_node 
+        @param destination_node
+        @return weight
+        """
         assert origin_node != destination_node, "Un nodo no puede estar unido a si mismo"
 
         position_a = self.get_node_position(origin_node)
@@ -101,9 +112,15 @@ class Graph():
         return self.adjacency_matrix[position_a][position_b]
 
     
-    def set_weight(self, origin_node: str, destination_node: str,
-                               weight: float):
-        """Cambia el peso de la union de dos nodos"""
+    def set_weight(self, origin_node: str, destination_node: str, weight: float):
+        """
+        Obtener el peso entre dos nodos, el valor de origen y 
+        de destino ya que los grafos no son dirigidos
+        
+        @param origin_node 
+        @param destination_node
+        @return weight
+        """
 
         assert origin_node != destination_node, "Un nodo no puede estar unido a si mismo"
 
@@ -114,29 +131,23 @@ class Graph():
         self.adjacency_matrix[position_b][position_a] = weight
 
 
-
-
-
-        
     @classmethod
     def from_matrix(cls, labels: list, adjacency_matrix: list):
-        """Carga el grafo desde una matriz"""
+        """
+        Crea un objeto de tipo Graph con la tabla de adyacencias 
 
-        assert square_matrix(
-            adjacency_matrix), "La matriz ingresada no es cuadrada"
+        @param label lista con los nombres de los nodos
+        @param adjacency_matrix matriz de adyacencia del grafo
+        @return Graph
+        """
 
-        foo = len(unique_items(labels))
-        assert foo == len(
-            adjacency_matrix
-        ), "El numero de columnas no coincide con la cantidad de etiquetas"
+        assert square_matrix(adjacency_matrix), "La matriz ingresada no es cuadrada"
+        assert unique_items(labels) == len(adjacency_matrix), "El numero de columnas no coincide con la cantidad de etiquetas"
 
         for i in range(0, foo):
             for j in range(0, foo):
-                assert adjacency_matrix[i][
-                    i] == 0, f"El nodo de la fila {i} esta conectado con si mismo"
-
-                assert adjacency_matrix[i][j] == adjacency_matrix[j][
-                    i], f"El Nodo [{i},{j}] no es simetrico con [{j},{i}]"
+                assert adjacency_matrix[i][i] == 0, f"El nodo de la fila {i} esta conectado con si mismo"
+                assert adjacency_matrix[i][j] == adjacency_matrix[j][i], f"El Nodo [{i},{j}] no es simetrico con [{j},{i}]"
 
         foo = Graph(labels)
         foo.adjacency_matrix = adjacency_matrix
@@ -179,16 +190,17 @@ if __name__ == "__main__":
     n_labels = int(input("Numero de nodos en el grafo: "))
     
     while n_labels > 0:
-        print("")
         label = input(f"Nombre del nodo: ")
-        
-        if not label in labels:
-            print(f"Nodo {label} agregado al grafo!")
-            labels.append(label)
-            n_labels -= 1
-            continue
 
-        print(f"El nodo {label} ya existe en el grafo")
+        if label in labels:
+            print(f"El nodo {label} ya existe en el grafo")
+            continue
+        
+        print(f"Nodo {label} agregado al grafo!")
+        labels.append(label)
+        n_labels -= 1
+
+
         
 
     grafo = Graph(labels)       # -----------------------------
