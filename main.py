@@ -10,14 +10,14 @@ def captura_nombre_nodos(grafo):
     n_labels = int(input("Numero de nodos en el grafo: "))
 
     print("\nCrear los nodos del grafo")
-        
+
     while n_labels > 0:
-        label = input(f"Nombre del nodo: ")
+        label = input("Nombre del nodo: ")
 
         if label in grafo.labels:
             print(f"El nodo {label} ya existe en el grafo")
             continue
-        
+
         print(f"Nodo {label} agregado al grafo!")
         grafo.add_node(label)
         n_labels -= 1
@@ -28,34 +28,31 @@ def captura_nombre_nodos(grafo):
 
 def ajustar_pesos_nodos(grafo):
     print("\nCapturar los pesos entre nodos")
-    
+
     for i,j in product(grafo.labels, grafo.labels):
         if i == j:
             # si es el mismo nodo
             continue
-        
+
         if grafo.get_weight(i, j) != 0:
             # si el nodo ya esta definido
             continue
-        
+
         weight = float(input(f"Peso entre {i} y {j}: "))
         grafo.set_weight(i, j, weight)
 
     print("")
 
 
-
-
-    
 def corregir_peso(grafo):
-    a = input(f"Nombre del nodo origen: ")
-    b = input(f"Nombre del nodo destino: ")
+    a = input("Nombre del nodo origen: ")
+    b = input("Nombre del nodo destino: ")
 
-    if not a in labels:
+    if not a in grafo.labels:
         print(f"El nodo {a} no existe\n")
         return
 
-    if not b in labels:
+    if not b in grafo.labels:
         print(f"El nodo {b} no existe\n")
         return
 
@@ -66,25 +63,23 @@ def corregir_peso(grafo):
 
 
 
-    
+
 if __name__ == "__main__":
     grafo = Graph()
     captura_nombre_nodos(grafo)
     ajustar_pesos_nodos(grafo)
 
     while True:
-        # mostrar la matriz capturada 
+        # mostrar la matriz capturada
         print("Matriz de adyacencias:")
         grafo.show_adjacency_matrix()
         grafo.show_graph()
 
-        # correcciones 
+        # correcciones
         op =input("\nLos pesos son correctas (y/n)? ")
-        if op == "y": break;
-        if op == "n": corregir_peso(grafo);
+        if op == "y": break
+        if op == "n": corregir_peso(grafo)
 
-        
-        
 
 
 # a = Graph.from_matrix(
@@ -114,4 +109,3 @@ if __name__ == "__main__":
 # a.show_graph()
 
 # # show_graph_with_labels(a.adjacency_matrix, a.labels)
-    
