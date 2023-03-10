@@ -70,16 +70,8 @@ graph = [
 ]
 
 
-def find(names, graph):
+def find(names, graph, nodo_fuente):
   size = len(graph)
-  if (not square_matrix(graph)):
-    print("La matriz ingresada no es cuadrada.")
-    exit()
-
-  if (not valid_graph(graph)):
-    print("El grafo ingresado no es valido.")
-    exit()
-
   dist = []
   for i in range(size):
     dist.append(Vertex(nodo=i, distancia=99999999))

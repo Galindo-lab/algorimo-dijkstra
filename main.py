@@ -65,11 +65,15 @@ if __name__ == "__main__":
   captura_nombre_nodos(grafo)
   ajustar_pesos_nodos(grafo)
 
+  foo = input("nodo de origen (default primero ingresado): ")
+
+  nodo_fuente = grafo.labels.index(foo) if foo in grafo.labels else -1
+
   while True:
     # mostrar la matriz capturada
     print("Matriz de adyacencias:")
     grafo.show_adjacency_matrix()
-    find(grafo.labels, grafo.adjacency_matrix)
+    find(grafo.labels, grafo.adjacency_matrix, nodo_fuente)
     grafo.show_graph()
 
     # correcciones
